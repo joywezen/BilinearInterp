@@ -7,12 +7,13 @@
 using std::string;
 using std::vector;
 using std::ifstream;
+using std::runtime_error;
 
 void exampleReadData(string filename, vector<double>& vx, vector<double>& vy, vector<double>& vz) {
     ifstream ins(filename);
     if(ins.fail()) {
         string errMsg = "Cannot open file " + filename;
-        throw std::runtime_error(errMsg.c_str());
+        throw runtime_error(errMsg.c_str());
     }
     while(ins.good()) {
         double x, y, z;
