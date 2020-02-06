@@ -1,50 +1,41 @@
+
+#include "LookUpTable.h"
+
 #include <iostream>
-#include <fstream>
+#include <exception>
 #include <string>
-#include <Eigen/Dense>
+#include <vector>
 
-using namespace std;
+using std::string;
+using std::vector;
+using std::cout;
+using std::cerr;
+using std::endl;
+using std::exception;
 
+int main() {
+    vector<double> x;
+    vector<double> y;
+    vector<double> z;
 
-int main()
-{
-  Eigen::MatrixXd  xx;
-  Eigen::VectorXd  x;
-  Eigen::VectorXd  y;
-  Eigen::VectorXd  z;
-  ifstream ReadData;
-  stringstream strStream;
-  printData pt;
-  int n=0;
-
-
-  string strTemp;
-  string::size_type sz;
-  ReadData.open("lookupTab.txt",ios::in); // readonly
-  //check lookupTab is opened correctly:
-    if (ReadData.fail()) //unsucessful open
-    {
-        cerr << "Error in opening the lookupTab.txt!\n";
-        exit (1);//exit if unsucessful
-    }
-    else //file is available
-    {
-        cout << "sucessfully opened the lookupTab.txt\n";
-        while (getline(ReadData,strTemp,'\n')) //(ReadData>>strTemp)//
-        {
-        cout <<  strTemp.length() << endl;
-        cout <<  stod(strTemp,&sz) << endl;
-        cout <<  stod(strTemp.substr(sz)) << endl;
-        //xx(n,0)=stod(strTemp);
-       // cout <<  xx(n,0) << endl;
-            n++;
-        }
-        //xx.transpose();
-       // xx.resize(3,101);
-
-        ReadData.close();
-
+    try {
+        exampleReadData("lookupTab.txt", x, y, z);
+    } catch(const exception& e) {
+        cerr << "Failed to read file: " << e.what() << endl;
+        return -1;
     }
 
-  return 0;
+    cout << "Lookup table: \n";
+    cout << "Count x: " << x.size() << "\n";
+    cout << "Count y: " << y.size() << "\n";
+    cout << "Count z: " << z.size() << "\n\n";
+
+    size_t limit = x.size();
+
+    for(size_t i = 0; i < limit; i++) {
+        cout << i << " : " << x[i] << ", " << y[i] << ", " << z[i] << "\n";
+    }
+    cout << endl;
+
+    return 0;
 }
